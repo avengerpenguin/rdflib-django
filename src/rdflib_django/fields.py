@@ -77,7 +77,7 @@ class URIField(with_metaclass(models.SubfieldBase, models.CharField)):
     description = "Field for storing URIRefs and BNodes."
 
     def __init__(self, *args, **kwargs):
-        if not 'max_length' in kwargs:
+        if 'max_length' not in kwargs:
             kwargs['max_length'] = 500
         super(URIField, self).__init__(*args, **kwargs)
 
