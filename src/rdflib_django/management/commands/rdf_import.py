@@ -1,6 +1,7 @@
 """
 Management command for parsing RDF into the store.
 """
+from __future__ import print_function
 from optparse import make_option
 from django.core.management.base import BaseCommand, CommandError
 import sys

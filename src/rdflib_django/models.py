@@ -4,6 +4,7 @@ The rdflib_django implementation uses Django models to store its triples.
 The underlying models are Resource centric, because rdflib-django is intended
 to be used for publishing resources.
 """
+from builtins import object
 from django.db import models
 from django.utils.translation import ugettext as _
 from django_extensions.db.fields import UUIDField
@@ -17,7 +18,7 @@ class NamedGraph(models.Model):
 
     identifier = fields.URIField(verbose_name=_("Identifier"), unique=True)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _("named graph")
         verbose_name_plural = _("named graphs")
 
@@ -38,7 +39,7 @@ class NamespaceModel(models.Model):
     uri = models.CharField(max_length=500, verbose_name=_("URI"), db_index=True, unique=True)
     fixed = models.BooleanField(verbose_name=_("Fixed"), editable=False, default=False)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _("namespace")
         verbose_name_plural = _("namespaces")
 
@@ -57,7 +58,7 @@ class URIStatement(models.Model):
     object = fields.URIField(_("Object"), db_index=True)
     context = models.ForeignKey(NamedGraph, verbose_name=_("Context"))
 
-    class Meta:
+    class Meta(object):
         unique_together = ('subject', 'predicate', 'object', 'context')
 
     def __unicode__(self):
@@ -81,7 +82,7 @@ class LiteralStatement(models.Model):
     object = fields.LiteralField(_("Object"), db_index=True)
     context = models.ForeignKey(NamedGraph, verbose_name=_("Context"))
 
-    class Meta:
+    class Meta(object):
         unique_together = ('subject', 'predicate', 'object', 'context')
 
     def __unicode__(self):

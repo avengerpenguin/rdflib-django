@@ -2,6 +2,7 @@
 Base forms for editing the models in this module. You can use or extend these forms in your
 project to ensure that all validation is correct.
 """
+from builtins import object
 from django import forms
 from rdflib_django import models
 from rdflib import namespace
@@ -12,7 +13,7 @@ class NamespaceForm(forms.ModelForm):
     Form for editing namespaces.
     """
 
-    class Meta:
+    class Meta(object):
         model = models.NamespaceModel
         fields = ('prefix', 'uri')
 

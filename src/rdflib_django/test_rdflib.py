@@ -1,6 +1,8 @@
 """
 Unittests based on the tests in the rdflib-extras package
 """
+from builtins import range
+from past.builtins import basestring
 from django import test
 from rdflib.graph import Graph, ConjunctiveGraph
 from rdflib.term import URIRef, BNode

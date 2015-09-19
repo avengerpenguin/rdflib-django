@@ -1,6 +1,7 @@
 """
 Essential implementation of the Store interface defined by RDF lib.
 """
+from builtins import str
 from django.db.utils import IntegrityError
 import rdflib
 from rdflib.store import VALID_STORE
@@ -123,7 +124,7 @@ class DjangoStore(rdflib.store.Store):
         models.URIStatement.objects.all().delete()
         models.LiteralStatement.objects.all().delete()
 
-    def add(self, (s, p, o), context, quoted=False):
+    def add(self, triple, context, quoted=False):
         """
         Adds a triple to the store.
 
@@ -138,6 +139,7 @@ class DjangoStore(rdflib.store.Store):
         1
 
         """
+        (s, p, o) = triple
         assert isinstance(s, Identifier)
         assert isinstance(p, Identifier)
         assert isinstance(o, Identifier)
@@ -153,10 +155,11 @@ class DjangoStore(rdflib.store.Store):
             context=named_graph,
             )
 
-    def remove(self, (s, p, o), context=None):
+    def remove(self, triple, context=None):
         """
         Removes a triple from the store.
         """
+        (s, p, o) = triple
         named_graph = _get_named_graph(context)
         query_sets = _get_query_sets_for_object(o)
 
@@ -175,10 +178,11 @@ class DjangoStore(rdflib.store.Store):
         for qs in query_sets:
             qs.delete()
 
-    def triples(self, (s, p, o), context=None):
+    def triples(self, triple, context=None):
         """
         Returns all triples in the current store.
         """
+        (s, p, o) = triple
         named_graph = _get_named_graph(context)
         query_sets = _get_query_sets_for_object(o)
 
@@ -223,7 +227,7 @@ class DjangoStore(rdflib.store.Store):
 
     def bind(self, prefix, namespace):
         for ns in DEFAULT_NAMESPACES:
-            if ns[0] == prefix or unicode(ns[1]) == unicode(namespace):
+            if ns[0] == prefix or str(ns[1]) == str(namespace):
                 return
 
         try:
